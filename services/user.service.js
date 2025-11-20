@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt');
 // Create a user
 async function createUser(userData) {
     const { username, email, password } = userData;
+
+    console.log('Creating user')
     
     // Check if email is already registered
     const existingUser = await User.findOne({ email });
@@ -57,6 +59,7 @@ async function getUserById(userId){
     if(!user) {
         throw new Error("User not found");
     }
+
     return user;
 }
 
@@ -77,6 +80,7 @@ async function deleteUser(userId){
     if(!user){
         throw new Error("User not found");
     }
+
     return user;
 }
 
