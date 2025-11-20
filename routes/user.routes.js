@@ -6,13 +6,7 @@ const userController = require('../controllers/user.controller');
 /**
  * USER ROUTES
  * Base path: /api/users
- */
-
-// Create a new user (Register)
-
-router.post('/register', userController.createUserController);
-
-/**
+ *
  * GET Routes
  * - Get user by username
  * - Get user by email
