@@ -23,18 +23,25 @@ async function comparePasswords (rawPassword, hashedPassword) {
 // Login with email + password
 async function loginUser(email, password) {
     // Find user by email
-    const user = await comparePasswords(password, user.password);
+    const user = await User.findOne({ email });
+    if(!user) {
+        throw new Error("Invalid email or password");
+    }
+
+    // Compare passwords
+    const isMatch = await comparePasswords(password, user.password);
     if (!isMatch) {
         throw new Error("Invalid email or password");
     }
 
     // Generate token
     const token = generateToken(user);
-
+    
+    // Return safe user object
     const safeUser = {
         id: user._id,
         username: user.username,
-        email: user.email
+        email: user.email,
     };
 
     return { user: safeUser, token };
