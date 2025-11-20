@@ -27,11 +27,11 @@ router.get('/', userController.getAllUsersController);
 /**
  * Update user
  */
-router.patch('/updateUser/:id', userController.updateUserController);
+router.patch('/:id', userController.updateUserController);
 
 /**
  * Delete user
  */
-router.delete('/deleteUser/:id', userController.deleteUserController);
+router.delete('/:id', userController.deleteUserController);
 
 module.exports = router;
