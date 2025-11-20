@@ -48,7 +48,7 @@ exports.getUserByEmailController = async(req, res) => {
 // Update user
 exports.updateUserController = async(req, res) => {
     try {
-        const user = await userService.updateUser(req.params.id, req.body);
+        const updated = await userService.updateUser(req.params.id, req.body);
         res.status(200).json(updated);
     } catch (err) {
         res.status(400).json({ error: err.message });
@@ -58,7 +58,7 @@ exports.updateUserController = async(req, res) => {
 // Delete user
 exports.deleteUserController = async (req, res) => {
     try {
-        const deleted = await deleteUser(req.params.id);
+        const deleted = await userService.deleteUser(req.params.id);
         res.status(200).json({ message: "User deleted", deleted });
     } catch (err) {
         res.status(400).json({ error: err.message });
@@ -68,7 +68,7 @@ exports.deleteUserController = async (req, res) => {
 // Get all users
 exports.getAllUsersController = async (req, res) => {
     try {
-        const user = await findAll();
+        const users = await userService.findAll();
         res.status(200).json(users);
     } catch (err) {
         res.status(400).json({ error: err.message });
