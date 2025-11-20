@@ -1,17 +1,6 @@
 const User = require('../models/user.model');
 const userService = require('../services/user.service');
 
-// Create User
-exports.createUserController = async(req, res) => {
-    try {
-        const user = await userService.createUser(req.body);
-        res.status(200).json(user);
-        console.log("User succesfully registered")
-    } catch(err) {
-        res.status(400).json({ message: err.message });
-    }
-};
-
 // Get user by username
 exports.getUserByUsernameController = async (req, res) => {
     try {
