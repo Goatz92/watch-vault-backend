@@ -1,11 +1,12 @@
-const User = require('../models/User');
+const User = require('../models/user.model');
 const userService = require('../services/user.service');
 
 // Create User
 exports.createUserController = async(req, res) => {
     try {
-        const result = await userService.createUser(req.body);
+        const user = await userService.createUser(req.body);
         res.status(200).json(user);
+        console.log("User succesfully registered")
     } catch(err) {
         res.status(400).json({ message: err.message });
     }
@@ -20,7 +21,7 @@ exports.getUserByUsernameController = async (req, res) => {
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
-}
+};
 
 // Get user by id
 exports.getUserByIdController = async(req, res) => {
@@ -31,4 +32,45 @@ exports.getUserByIdController = async(req, res) => {
     } catch (err) {
         res.status(404).json({ error: err.message });
     }
-}
+};
+
+// Get user by email
+exports.getUserByEmailController = async(req, res) => {
+    try {
+        const user = await userService.getUserByEmail(req.params.email);
+        if (!user) return res.status(404).json({ error: "User not found" });
+        res.status(200).json(user);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+};
+
+// Update user
+exports.updateUserController = async(req, res) => {
+    try {
+        const user = await userService.updateUser(req.params.id, req.body);
+        res.status(200).json(updated);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+};
+
+// Delete user
+exports.deleteUserController = async (req, res) => {
+    try {
+        const deleted = await deleteUser(req.params.id);
+        res.status(200).json({ message: "User deleted", deleted });
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+};
+
+// Get all users
+exports.getAllUsersController = async (req, res) => {
+    try {
+        const user = await findAll();
+        res.status(200).json(users);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+};
