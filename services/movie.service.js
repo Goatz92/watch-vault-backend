@@ -18,10 +18,10 @@ async function searchMovies(title){
     return response.data.Search;
 }
 
-async function getMovieById(imdbId) {
+async function getMovieById(imdbID) {
     const response = await axios.get(OMDB_BASE_URL, {
         params: {
-            i: imdbId,
+            i: imdbID,
             plot: "full",
             apikey: OMDB_API_KEY
         }

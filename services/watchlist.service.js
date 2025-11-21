@@ -7,7 +7,7 @@ async function addToWatchlist(userId, imdbID) {
 
     const watchlistItem = await Watchlist.create({ 
         userId,
-        imdbId,
+        imdbID,
         title: movieData.Title,
         poster: movieData.Poster
     });
@@ -16,7 +16,7 @@ async function addToWatchlist(userId, imdbID) {
 }
 
 async function removeFromWatchlist(userId, imdbID) {
-    const removed = await Watchlist.findOneAndDelete({ userId, imdbId });
+    const removed = await Watchlist.findOneAndDelete({ userId, imdbID });
 
     if(!removed) {
         throw new Error("Movie not found in watchlist");

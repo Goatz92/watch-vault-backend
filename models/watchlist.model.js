@@ -6,9 +6,9 @@ const watchlistSchema = new mongoose.Schema({
         ref: "User",
         required: [true, 'User Id is required']
     },
-    imdbId: { 
+    imdbID: { 
         type: String, 
-        required: [true, 'imdbId is required']
+        required: [true, 'imdbID is required']
     },
     title: String,
     poster: String,
