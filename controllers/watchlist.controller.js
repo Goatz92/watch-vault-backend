@@ -28,6 +28,17 @@ exports.removeFromWatchlistController = async (req, res) => {
     }
 };
 
+exports.getUserWatchlistController = async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        const list = await watchlistService.getUserWatchlist(userId);
+        res.status(200).json(list);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+}
+
 exports.clearWatchlistController = async (req, res) => {
     try {
         const { userId } = req.params;
