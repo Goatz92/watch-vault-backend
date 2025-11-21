@@ -18,14 +18,6 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: [true, 'Please provide a password']
         },
-        watchlist: [
-            {
-                movieId: String,
-                title: String,
-                poster: String,
-                addedAt: { type: Date, default: Date.now}
-            }
-        ],
     },
     { timestamps: true}
 )
