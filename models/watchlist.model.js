@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { watch } = require('./user.model');
 
 const watchlistSchema = new mongoose.Schema({
     userId: {
@@ -7,10 +6,22 @@ const watchlistSchema = new mongoose.Schema({
         ref: "User",
         required: [true, 'User Id is required']
     },
-    imdbId: { type: String, required: [true, 'imdbId is required']},
+    imdbId: { 
+        type: String, 
+        required: [true, 'imdbId is required']
+    },
     title: String,
     poster: String,
-    addedAt: { type: Date, default: Date.now}
+    addedAt: { 
+        type: Date, 
+        default: Date.now}
 });
+
+// Ensure no duplicates for the same movie/user
+watchlistSchema.index(
+    { userId: 1, imdbID: 1 }, 
+    { unique: true }
+);
+
 
 module.exports = mongoose.model("Watchlist", watchlistSchema);
