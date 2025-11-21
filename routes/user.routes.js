@@ -1,7 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
+// Controllers
 const userController = require('../controllers/user.controller');
+
+// Middleware
+const authenticateToken = require('../middleware/auth.middleware');
 
 /**
  * USER ROUTES
@@ -21,11 +25,11 @@ router.get('/', userController.getAllUsersController);
 /**
  * Update user
  */
-router.patch('/:id', userController.updateUserController);
+router.patch('/:id', authenticateToken, userController.updateUserController);
 
 /**
  * Delete user
  */
-router.delete('/:id', userController.deleteUserController);
+router.delete('/:id', authenticateToken, userController.deleteUserController);
 
 module.exports = router;
