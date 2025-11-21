@@ -12,7 +12,12 @@ const bcrypt = require('bcrypt');
 async function createUser(userData) {
     const { username, email, password } = userData;
 
-    console.log('Creating user')
+    console.log('Creating user...')
+
+    // Check if data exists
+    if (!username || !email || !password) {
+        throw new Error("Username, email, and password are required");
+    }
     
     // Check if email is already registered
     const existingUser = await User.findOne({ email });
@@ -20,17 +25,27 @@ async function createUser(userData) {
         throw new Error("Email already in use");
     }
 
+    // Normalize email
+    const normalizedEmail = email.toLowerCase();
+
     // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(
+        password, 
+        parseInt(process.env.SALT_ROUNDS)
+    );
 
     // Create the user
     const user = await User.create({
         username,
-        email,
+        email: normalizedEmail,
         password: hashedPassword
     });
 
-    return user;
+    return {
+        id: user._id,
+        username: user.username,
+        email: user.email
+    };
 }
 
 /**
