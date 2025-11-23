@@ -1,60 +1,68 @@
 /**
- * Movie Service
+ * Movie Database Service
  *
- * Handles communication with the OMDb API to fetch movie data.
+ * Handles saving and retrieving movie documents stored in MongoDB.
+ * Uses movieAPI.service to fetch fresh data when needed.
  */
 
-const axios = require('axios');
-
-const OMDB_API_KEY = process.env.OMDB_API_KEY;
-const OMDB_BASE_URL = process.env.OMDB_BASE_URL;
+const Movie = require('../models/movie.model');
+const omdbApi = require('./omdbApi.service');
 
 /**
- * @desc    Search movies by title
- * @param   {string} title - The movie title to search for
- * @returns {Promise<Array>} List of movies matching the title
- * @throws  Error if no movies are found
- * @access  Public
- */
-async function searchMovies(title){
-    const response = await axios.get(OMDB_BASE_URL, {
-        params: {
-            s: title,
-            apikey: OMDB_API_KEY
-        }
-    });
-
-    if (response.data.Response === "False") {
-        throw new Error (response.data.Error || "No movies found");
-    }
-
-    return response.data.Search;
-}
-
-/**
- * @desc    Get detailed movie information by IMDb ID
+ * @desc    Find movie in DB or fetch from OMDb and store it
  * @param   {string} imdbID - IMDb ID of the movie
- * @returns {Promise<Object>} Full movie details
- * @throws  Error if movie is not found
- * @access  Public
+ * @returns {Promise<Movie>} MongoDB movie document
  */
-async function getMovieById(imdbID) {
-    const response = await axios.get(OMDB_BASE_URL, {
-        params: {
-            i: imdbID,
-            plot: "full",
-            apikey: OMDB_API_KEY
-        }
+async function getOrCreateMovie(imdbID) {
+    // Check if movie already exists in db
+    let movie = await Movie.findOne({ imdbID });
+
+    if (movie) {
+        return movie;
+    };
+    
+    // Else fetch data from external API
+    const movieData = await omdbApi.getMovieById(imdbID);
+
+    // Save to db
+    movie = await Movie.create({
+        imdbID: movieData.imdbID,
+        title: movieData.Title,
+        year: movieData.Year,
+        rated: movieData.Rated,
+        released: movieData.Released,
+        runtime: movieData.Runtime,
+        genre: movieData.Genre,
+        director: movieData.Director,
+        writer: movieData.Writer,
+        actors: movieData.Actors,
+        plot: movieData.Plot,
+        language: movieData.Language,
+        country: movieData.Country,
+        awards: movieData.Awards,
+        poster: movieData.Poster,
+        ratings: movieData.Ratings,
+        metascore: movieData.Metascore,
+        imdbRating: movieData.imdbRating,
+        imdbVotes: movieData.imdbVotes,
+        type: movieData.Type,
+        dvd: movieData.DVD,
+        boxOffice: movieData.BoxOffice,
+        production: movieData.Production,
+        website: movieData.Website
     });
 
-    if (response.data.Response === "False") {
-        throw new Error ("Movie not found");
-    }
-
-    return response.data
+    return movie;
 }
+
+/**
+ * @desc    Find a movie in DB by Mongo ID
+ */
+async function getMovieById(id) {
+    return await Movie.findById(id);
+};
 
 module.exports = {
-    searchMovies,
+    getOrCreateMovie,
     getMovieById
-}
+};
