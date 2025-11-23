@@ -1,3 +1,16 @@
+/**
+ * User Routes
+ *
+ * Base Path: /api/users
+ *
+ * Handles all user-related operations such as:
+ * - Fetching user data
+ * - Updating user info
+ * - Deleting users
+ *
+ * Some routes require authentication via JWT.
+ */
+
 const express = require('express');
 const router = express.Router();
 

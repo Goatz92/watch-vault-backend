@@ -1,3 +1,10 @@
+/**
+ * Movie Routes
+ *
+ * Handles movie searching and fetching details by IMDb ID.
+ * These routes communicate with the OMDb API via the movie service.
+ */
+
 const express = require('express');
 const router = express.Router();
 

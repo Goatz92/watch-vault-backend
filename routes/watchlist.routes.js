@@ -1,3 +1,17 @@
+/**
+ * Watchlist Routes
+ *
+ * Base Path: /api/watchlist
+ *
+ * Handles all user watchlist operations such as:
+ * - Adding movies
+ * - Removing movies
+ * - Fetching a user's full watchlist
+ * - Clearing a watchlist
+ *
+ * All routes require authentication via JWT.
+ */
+
 const express = require('express');
 const router = express.Router();
 

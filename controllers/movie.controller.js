@@ -1,6 +1,15 @@
+/**
+ * Movie Controller
+ * Handles incoming HTTP requests related to movie search and movie details.
+ */
+
 const movieService = require('../services/movie.service');
 
-// Search movies by title
+/**
+ * @desc    Search movies by title
+ * @route   GET /api/movies/search?title=Inception
+ * @access  Public
+ */
 exports.searchMoviesController = async (req, res) => {
     try {
         const { title } = req.query;
@@ -15,6 +24,11 @@ exports.searchMoviesController = async (req, res) => {
     }
 };
 
+/**
+ * @desc    Get detailed movie info by IMDb ID
+ * @route   GET /api/movies/:imdbID
+ * @access  Public
+ */
 exports.getMovieByIdController = async (req, res) => {
     try {
         const { imdbID } = req.params;

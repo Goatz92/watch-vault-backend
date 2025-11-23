@@ -1,6 +1,17 @@
+/**
+ * User Controller
+ * 
+ * Handles user retrieval, updating, and deletion.
+ * All business logic is delegated to userService.
+ */
+
 const userService = require('../services/user.service');
 
-// Get user by username
+/**
+ * @desc    Get user by username
+ * @route   GET /api/users/username/:username
+ * @access  Public
+ */
 exports.getUserByUsernameController = async (req, res) => {
     try {
         const user = await userService.getUserByUsername(req.params.username);
@@ -11,7 +22,11 @@ exports.getUserByUsernameController = async (req, res) => {
     }
 };
 
-// Get user by id
+/**
+ * @desc    Get user by ID
+ * @route   GET /api/users/id/:id
+ * @access  Private
+ */
 exports.getUserByIdController = async(req, res) => {
     try {
         const user = await userService.getUserById(req.params.id);
@@ -22,7 +37,11 @@ exports.getUserByIdController = async(req, res) => {
     }
 };
 
-// Get user by email
+/**
+ * @desc    Get user by Email
+ * @route   GET /api/users/email/:email
+ * @access  Private/Admin
+ */
 exports.getUserByEmailController = async(req, res) => {
     try {
         const user = await userService.getUserByEmail(req.params.email);
@@ -33,7 +52,11 @@ exports.getUserByEmailController = async(req, res) => {
     }
 };
 
-// Update user
+/**
+ * @desc    Update user by ID
+ * @route   PATCH /api/users/:id
+ * @access  Private (same user only)
+ */
 exports.updateUserController = async(req, res) => {
     try {
         const updated = await userService.updateUser(req.params.id, req.body);
@@ -43,7 +66,11 @@ exports.updateUserController = async(req, res) => {
     }
 };
 
-// Delete user
+/**
+ * @desc    Delete user by ID
+ * @route   DELETE /api/users/:id
+ * @access  Private (same user only)
+ */
 exports.deleteUserController = async (req, res) => {
     try {
         const deleted = await userService.deleteUser(req.params.id);
@@ -53,7 +80,11 @@ exports.deleteUserController = async (req, res) => {
     }
 };
 
-// Get all users
+/**
+ * @desc    Get all users
+ * @route   GET /api/users
+ * @access  Admin
+ */
 exports.getAllUsersController = async (req, res) => {
     try {
         const users = await userService.findAll();

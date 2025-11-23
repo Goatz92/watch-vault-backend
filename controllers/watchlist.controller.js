@@ -1,3 +1,10 @@
+/**
+ * Watchlist Controller
+ * 
+ * Handles CRUD actions for a user's movie watchlist.
+ * All database logic is delegated to watchlistService.
+ */
+
 const watchlistService = require('../services/watchlist.service');
 
 exports.addToWatchlistController = async (req, res) => {
@@ -16,6 +23,11 @@ exports.addToWatchlistController = async (req, res) => {
     }
 };
 
+/**
+ * @desc    Remove a movie from a user's watchlist
+ * @route   DELETE /api/watchlist/:userId/remove/:imdbID
+ * @access  Private (authenticated user)
+ */
 exports.removeFromWatchlistController = async (req, res) => {
     try {
         const { imdbID } = req.params;
@@ -28,6 +40,11 @@ exports.removeFromWatchlistController = async (req, res) => {
     }
 };
 
+/**
+ * @desc    Get all watchlist items for a user
+ * @route   GET /api/watchlist/:userId
+ * @access  Private (authenticated user)
+ */
 exports.getUserWatchlistController = async (req, res) => {
     try {
         const { userId } = req.params;
@@ -39,6 +56,11 @@ exports.getUserWatchlistController = async (req, res) => {
     }
 }
 
+/**
+ * @desc    Clear a user's entire watchlist
+ * @route   DELETE /api/watchlist/:userId/clear
+ * @access  Private (authenticated user)
+ */
 exports.clearWatchlistController = async (req, res) => {
     try {
         const { userId } = req.params;
