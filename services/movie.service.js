@@ -2,7 +2,7 @@
  * Movie Database Service
  *
  * Handles saving and retrieving movie documents stored in MongoDB.
- * Uses movieAPI.service to fetch fresh data when needed.
+ * Uses omdbApi.service to fetch fresh data when needed.
  */
 
 const Movie = require('../models/movie.model');
