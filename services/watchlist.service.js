@@ -8,6 +8,16 @@
 const Watchlist = require('../models/watchlist.model');
 const movieService = require('../services/movie.service');
 
+
+async function createWatchlist(userId, movieId = null) {
+    const watchlist = await Watchlist.create({
+        userId,
+        movies: movieId ? [movieId] : []
+    });
+
+    return watchlist;
+};
+
 /**
  * @desc    Add a movie to a user's watchlist
  * @param   {string} userId - ID of the user
@@ -15,18 +25,29 @@ const movieService = require('../services/movie.service');
  * @returns {Promise<Object>} The created watchlist item
  * @throws  Error if movie data cannot be fetched
  */
-async function addToWatchlist(userId, imdbID) {
-    // Fetch movie data
-    const movieData = await movieService.getMovieById(imdbID);
+async function addToWatchlist(userId, imdbID, watchlistId = null) {
+    const movie = await movieService.getOrCreateMovie(imdbID);
 
-    const watchlistItem = await Watchlist.create({ 
-        userId,
-        imdbID,
-        title: movieData.Title,
-        poster: movieData.Poster
-    });
+    let watchlist;
 
-    return watchlistItem;
+    if (watchlistId) {
+        watchlist = await Watchlist.findOne({ _id: watchlistId, userId });
+    } else {
+        watchlist = createWatchlist(userId, movie._id);
+
+        return watchlist;
+    };
+
+    // Prevent movie duplicates
+    if (watchlist.movies.includes(movie._id)) {
+        throw new Error("Movie already in watchlist");
+    }
+
+    // Add movie to watchlist
+    watchlist.movies.push(movie._id);
+    await watchlist.save();
+
+    return watchlist;   
 }
 
 /**
